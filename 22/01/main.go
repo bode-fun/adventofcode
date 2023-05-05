@@ -47,11 +47,14 @@ func accumulateCalories(caloriesChannel chan string, caloriesListChannel chan []
 	for caloriesTxt := range caloriesChannel {
 		calories, err := strconv.Atoi(caloriesTxt)
 
-		// Atoi returns an error when it it passed an empty string
-		if err != nil {
+		if caloriesTxt == "" {
 			caloriesListChannel <- caloriesList
 			caloriesList = make([]int, 0)
 		} else {
+			if err != nil {
+				panic(err)
+			}
+
 			caloriesList = append(caloriesList, calories)
 		}
 	}
